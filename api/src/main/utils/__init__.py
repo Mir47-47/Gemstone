@@ -98,12 +98,12 @@ class FunctionCallResult(list):
                 return "\n" + "\n".join(queue)
 
     def finalize(
-        self,
-        history_list: list,
-        tag: tuple[str, str] = ("<tool_call>", "</tool_call>"),
-        print_output: bool = False,
-        tool_call_caches: dict[str, dict] = None
-    ) -> Union[str, False]:
+            self,
+            history_list: list,
+            tag: tuple[str, str] = ("<tool_call>", "</tool_call>"),
+            print_output: bool = False,
+            tool_call_caches: dict[str, dict] = None
+    ) -> Union[str, bool]:
         # Check if there are any pending tool calls
         with self.__queue_mutex:
             if len(self.job_list) != self.__completed_jobs:
@@ -159,19 +159,19 @@ class FunctionCallResult(list):
             self.__thread_pool.submit(self.do, job_id, name, arguments, tag, tool_call_caches)
 
     def do(
-        self,
-        job_id: str,
-        name: str,
-        arguments: dict,
-        tag: tuple[str, str] = ("<tool_call>", "</tool_call>"),
-        tool_call_caches: dict[str, str] = None
+            self,
+            job_id: str,
+            name: str,
+            arguments: dict,
+            tag: tuple[str, str] = ("<tool_call>", "</tool_call>"),
+            tool_call_caches: dict[str, str] = None
     ):
         # Execute the function
         try:
             if name not in self.implementations:
                 raise ValueError(f"Function '{name}' is not registered.")
 
-            if name in ["get_cache_list", "get_cache_data"]:
+            if name in ["get_cache_data"]:
                 result = self.implementations[name](**arguments, tool_call_caches=tool_call_caches)
             else:
                 result = self.implementations[name](**arguments)
@@ -391,23 +391,14 @@ FunctionCalling.DEFAULT = FunctionCalling(
             }
         ),
         FunctionSchema(
-            name="get_cache_list",
-            description="Get the list of all conversation caches",
-            parameters={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
-        ),
-        FunctionSchema(
             name="get_cache_data",
-            description="Get a specific conversation cache by name",
+            description="Get results for previous tool_call",
             parameters={
                 "type": "object",
                 "properties": {
                     "tool_call_cache_id": {
                         "type": "string",
-                        "description": "Name of the cache to retrieve"
+                        "description": "The id of the previous tool_call to retrieve from cache"
                     }
                 },
                 "required": ["tool_call_cache_id"]
@@ -425,7 +416,6 @@ FunctionCalling.DEFAULT = FunctionCalling(
         search_web=web_search.search_web,
         search_website=web_search.search_website,
         fetch_webpage=web_search.fetch_webpage,
-        get_cache_list=cache.get_cache_list,
         get_cache_data=cache.get_cache_data
     )
 )

@@ -47,22 +47,22 @@ class Llama3Model(BaseModel):
         )
 
     def chat(
-        self,
-        chat_history: ChatHistory,
-        user_prompt: str,
-        system_prompt: str = system_prompt,
-        tools: Optional[List[Dict[str, str]]] = None,
-        temperature: float = 0.2,
-        top_p: float = 0.95,
-        top_k: int = 40,
-        min_p: float = 0.05,
-        typical_p: float = 1.0,
-        stream: bool = True,
-        max_new_tokens: int = 0,
-        repeat_penalty: float = 1.0,
-        print_output: bool = False,
-        tool_call_caches: Optional[dict[str, str]] = None,
-        **kwargs
+            self,
+            chat_history: ChatHistory,
+            user_prompt: str,
+            system_prompt: str = system_prompt,
+            tools: Optional[List[Dict[str, str]]] = None,
+            temperature: float = 0.2,
+            top_p: float = 0.95,
+            top_k: int = 40,
+            min_p: float = 0.05,
+            typical_p: float = 1.0,
+            stream: bool = True,
+            max_new_tokens: int = 0,
+            repeat_penalty: float = 1.0,
+            print_output: bool = False,
+            tool_call_caches: Optional[dict[str, str]] = None,
+            **kwargs
     ) -> Union[Generator[str, None, None], str]:
         return super().chat(
             chat_history=chat_history,

@@ -62,13 +62,13 @@ class BaseModel:
         self.__class__.__instance = None
 
     def parse_tool_calling(
-        self,
-        outputs,
-        chat_history: ChatHistory,
-        tools: List[Dict[str, str]],
-        stream: bool = True,
-        print_output: bool = False,
-        tool_call_caches: Optional[dict[str, str]] = None
+            self,
+            outputs,
+            chat_history: ChatHistory,
+            tools: List[Dict[str, str]],
+            stream: bool = True,
+            print_output: bool = False,
+            tool_call_caches: Optional[dict[str, str]] = None
     ) -> Union[Generator[str, None, None], str]:
         """ Parse tool calling from the model's output """
         result_obj = FunctionCallResult()
@@ -142,22 +142,22 @@ class BaseModel:
                 return outputs + final_result
 
     def chat(
-        self,
-        chat_history: ChatHistory,
-        user_prompt: str,
-        system_prompt: str = "",
-        tools: Optional[List[Dict[str, str]]] = None,
-        temperature: float = 0.2,
-        top_p: float = 0.95,
-        top_k: int = 40,
-        min_p: float = 0.05,
-        typical_p: float = 1.0,
-        stream: bool = True,
-        max_new_tokens: int = 1024,
-        repeat_penalty: float = 1.0,
-        print_output: bool = False,
-        tool_call_caches: Optional[dict[str, str]] = None,
-        **kwargs
+            self,
+            chat_history: ChatHistory,
+            user_prompt: str,
+            system_prompt: str = "",
+            tools: Optional[List[Dict[str, str]]] = None,
+            temperature: float = 0.2,
+            top_p: float = 0.95,
+            top_k: int = 40,
+            min_p: float = 0.05,
+            typical_p: float = 1.0,
+            stream: bool = True,
+            max_new_tokens: int = 1024,
+            repeat_penalty: float = 1.0,
+            print_output: bool = False,
+            tool_call_caches: Optional[dict[str, str]] = None,
+            **kwargs
     ) -> Union[Generator[str, None, None], str]:
         """ Process a chat request
 

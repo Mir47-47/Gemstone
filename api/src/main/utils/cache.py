@@ -4,14 +4,6 @@ import datetime
 from typing import Union
 
 
-
-def get_cache_list(tool_call_caches: dict[str,str]) -> str:
-    """ Get the global conversation cache instance """
-    if tool_call_caches:
-        return json.dumps(list(tool_call_caches.keys()), default=str, ensure_ascii=False)  # datetime 직렬화 지원
-    else:
-        return "caches is empty"
-
 def get_cache_data(tool_call_cache_id: str, tool_call_caches: dict[str, str]) -> str:  # 함수명 오타 수정
     """ Get a specific cache data by name """
     if tool_call_caches and tool_call_cache_id in tool_call_caches:
